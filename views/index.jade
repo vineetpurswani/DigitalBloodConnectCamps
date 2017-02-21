@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  div(class='container')
+    h1= title
+    br
+    form(action='/submit' method='post')
+      div(class="form-group")
+        each header in headers
+          label(class="form-text" for='#{header.toLowerCase()}') #{header}
+          input(type='text' class="form-control" required='required' name='#{header.toLowerCase()}')
+
+      input(type="submit" class="btn btn-primary" value="Submit")

@@ -1,0 +1,24 @@
+//
+   Created by fachika on 20/2/17.
+
+doctype html
+html
+    head
+        title= title
+        //link(rel='stylesheet', href='/stylesheets/materialize.min.css')
+        link(rel="stylesheet" href="stylesheets/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous")
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        meta(http-equiv="refresh" content="5")
+    body
+        div
+            table(class = 'table table-fixed', style='overflow: scroll;')
+                thead
+                    each entry in data.headers
+                        th #{entry}
+
+                tbody
+                    each row in data.data.reverse()
+                        tr
+                            each entry in row
+                                th #{entry}
+
