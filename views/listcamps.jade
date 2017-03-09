@@ -1,0 +1,24 @@
+//
+   Created by fachika on 9/3/17.
+
+extends layout
+
+block content
+    div(class='container')
+        h1= title
+        br
+        table(class='table table-hover', style='overflow: scroll;')
+            thead
+                tr
+                    th Organizer's Name
+                    th Venue City
+                    th Venue Address
+                    th Register
+            tbody
+                each entry in data.entry_list
+                    tr
+                        th #{entry.name_value_list.organizers_name.value}
+                        th #{entry.name_value_list.venue_city.value}
+                        th #{entry.name_value_list.venue.value}
+                        th
+                            a(href='/campform?camp_id='+entry.name_value_list.name.value) Click Here

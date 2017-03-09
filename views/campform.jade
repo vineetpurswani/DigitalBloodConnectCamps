@@ -4,10 +4,11 @@ block content
   div(class='container')
     h1= title
     br
-    form(action='/submit' method='post')
+    form(action='/campform/submit' method='post')
       div(class="form-group")
         each header in headers
           label(class="form-text" for='#{header.toLowerCase()}') #{header}
           input(type='text' class="form-control" required='required' name='#{header.toLowerCase()}')
 
-      input(type="submit" class="btn btn-primary" value="Submit")
+      input(type='hidden', value=camp_id, name='camp_id')
+      input(type="submit", class="btn btn-primary", value="Submit")

@@ -5,16 +5,23 @@ var csv = require('fast-csv');
 var fs = require('fs');
 var express = require('express');
 var router = express.Router();
-var CONSTANTS = require('./CONSTANTS');
+var CONSTANTS = require('./../bin/CONSTANTS');
 
 router.get('/', function(req, res) {
+  var camp_id = req.query.camp_id;
+  if (camp_id == undefined) {
+    res.redirect('/');
+    return;
+  }
+
+  var csvfilename = CONSTANTS.csvdir + 'response_'+camp_id+'.csv';
 
     // Setup some vars
     var json = {},
         first = true;
 
     // Read the file from the upload [3]
-    fs.readFile(CONSTANTS.csvfilename, function (err, content) {
+    fs.readFile(csvfilename, function (err, content) {
         console.log(err);
         // Create the scv parser [4]
         csv
@@ -41,7 +48,7 @@ router.get('/', function(req, res) {
             // Make sure the server send the right headers [10]
             // res.writeHead(200, {'Content-Type': 'text/html'});
             // Send the json data [11]
-            res.render('response', {data: json, title: 'Response Sheet'});
+            res.render('csvviewer', {data: json, title: 'Response Sheet'});
 
         });
 

@@ -1,25 +1,33 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var CONSTANTS = require('./CONSTANTS');
+var CONSTANTS = require('./../bin/CONSTANTS');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Donor Form', headers:  CONSTANTS.headers});
+  if (req.query.camp_id == undefined) {
+    res.redirect('/');
+    return;
+  }
+  res.render('campform', { title: 'Donor Form', headers: CONSTANTS.headers, camp_id: req.query.camp_id});
 });
 
-
 router.post('/submit', function(req, res) {
-    data = '';
+    var data = '';
+    var camp_id = req.body.camp_id;
+    var csvfilename = CONSTANTS.csvdir + 'response_'+camp_id+'.csv';
+    delete req.body.camp_id;
+
     for (var i in CONSTANTS.headers) {
         var header = CONSTANTS.headers[i];
         data += req.body[header.toLowerCase()]+', ';
     }
     data = data.slice(0,-2) +'\n';
-    if (!fs.existsSync(CONSTANTS.csvfilename)) {
+    if (!fs.existsSync(csvfilename)) {
         data = CONSTANTS.headers.join(',') + '\n' + data;
     }
-    fs.appendFile(CONSTANTS.csvfilename, data, function (err) {
+    fs.appendFile(csvfilename, data, function (err) {
+      if (err != null)
         throw err;
     });
     res.render('submit', {title: 'Submission Successful'});

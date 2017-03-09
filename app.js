@@ -5,7 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
+var index = require('./routes/listcamps')
+var campform = require('./routes/campform');
 var users = require('./routes/users');
 var csvviewer = require('./routes/csvviewer');
 var fs = require('fs');
@@ -25,13 +26,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/campform', campform);
 // app.use('/users', users);
-app.use('/response', csvviewer);
-
-app.get('/response', function(req, res){
-    res.set('Content-Type', 'text/csv');
-    res.sendFile('public/response.csv', {"root": __dirname});
-});
+// app.use('/show_response', csvviewer);
+//
+// app.get('/download_response', function(req, res){
+//   var camp_id = req.query.camp_id;
+//   if (camp_id == undefined) {
+//     res.redirect('/');
+//     return;
+//   }
+//     res.set('Content-Type', 'text/csv');
+//     res.sendFile('csv/response_'+camp_id+'.csv', {"root": __dirname});
+// });
 
 
 // catch 404 and forward to error handler
